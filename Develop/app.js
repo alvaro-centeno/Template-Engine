@@ -11,14 +11,11 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const emp = [];
-const man = [];
-const eng = [];
-const int = [];
+let emp = [];
 
 let id = 0;
 
-newHire();
+// newHire();
 
 function newHire() {
     inquirer.prompt([
@@ -69,36 +66,44 @@ function newHire() {
 
     ]).then(res => {
         if (res.type === 'Manager') {
-            man.push(new Manager(es.name, id, res.email, res.office));
+            emp.push(new Manager(res.name, id, res.email, res.office));
             id++
         } else if (res.type === 'Engineer') {
-            eng.push(new Engineer(res.name, id, res.email, res.github));
+            emp.push(new Engineer(res.name, id, res.email, res.github));
             id++
         } else if (res.type === 'Intern') {
-            int.push(new Intern(res.name, id, res.email, res.school));
+            emp.push(new Intern(res.name, id, res.email, res.school));
             id++
         };
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'another',
+                message: 'Add another new hire?',
+                choices: ['Yes', 'No']
+            }
+        ]).then(res => {
+            if (res.another === 'Yes') {
+                newHire();
+            } else {
+                const data = render(emp);
+                fs.writeFile(outputPath, data, (err) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        console.log('New Hire Added!')
+                    }
+                });
+            }
+        });
 
-    })
-    //     .catch(err => console.log(err);
-    // )
+    });
+
 }
 
-inquirer.prompt([
-    {
-        type: 'input',
-        name: 'another',
-        message: 'Add another new hire?',
-        choices: ['Yes', 'No']
-    }
-]).then(res => {
-    if (res.choices === 'Yes') {
-        newHire();
-    } else {
-        console.log('New Hire Complete!');
+newHire();
 
-    }
-})
+
 
 
 
