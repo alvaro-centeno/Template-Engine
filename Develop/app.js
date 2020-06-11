@@ -15,8 +15,6 @@ let emp = [];
 
 let id = 0;
 
-// newHire();
-
 function newHire() {
     inquirer.prompt([
         {
@@ -84,8 +82,9 @@ function newHire() {
             }
         ]).then(res => {
             if (res.another === 'Yes') {
-                newHire();
-            } else {
+                newHire()
+            }
+            else {
                 const data = render(emp);
                 fs.writeFile(outputPath, data, (err) => {
                     if (err) {
