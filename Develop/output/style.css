@@ -1,0 +1,15 @@
+body{
+background-image: url(http://wallpapercave.com/wp/MUUXx5p.jpg);
+}
+
+#topBan{
+    color: white;
+}
+
+h2, h3 {
+    color: white;
+}
+
+.jumbotron {
+    background: rgba(96, 116, 202, 0.5); 
+ }
